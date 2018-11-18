@@ -41,24 +41,31 @@ app.get('*', (req, res, next) => {
 })
 
 // error
-app.get((err, req, res, next) => {
-  res.status(502).send({
-    status: false,
-    data: err
-  })
+app.use((err, req, res, next) => {
+  var isAPI = req.path.split('/')[1] === 'api'
+  if (isAPI) {
+    res.status(err.code).send(err)
+  } else {
+    res.status(err.code || 500).send({
+      status: false,
+      data: err
+    })
+  }
 })
 
 app.listen(appConfig.port, () => { console.log('Listening to port ' + appConfig.port) })
 
 function deleteExpiredSessions(sequelize) {
+
+  var destoyer = {
+    expires: {
+      [Sequelize.Op.lte]: new Date()
+    }
+  }
   var model = sequelize['import']('./models/session.js')
   sequelize.models[model.name] = model
   sequelize.models.Session.destroy({
-    where: {
-      expires: {
-        [Sequelize.Op.lte]: new Date()
-      }
-    }
+    where: destoyer
   }).then(() => {
     console.log(`Executing (default): DELETE FROM \`Sessions\` WHERE \`expires\` <= '${new Date().toISOString()}'`)
   }).catch(err => {
