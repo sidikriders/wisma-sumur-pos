@@ -1,12 +1,12 @@
 'use strict'
 
 module.exports = (sequelize, DataTypes) => {
-  const adminRole = sequelize.define('admin_role', {
+  const admin_role = sequelize.define('admin_role', {
     name: DataTypes.STRING
   })
 
-  adminRole.associate = function(models) {
-    // associations can be defined here
+  admin_role.associate = (models) => {
+    admin_role.hasMany(models.admin, { foreignKey: 'roleId' })
   }
-  return adminRole
+  return admin_role
 }

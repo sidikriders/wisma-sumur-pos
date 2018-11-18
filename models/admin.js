@@ -7,8 +7,8 @@ module.exports = (sequelize, DataTypes) => {
     roleId: DataTypes.INTEGER
   })
 
-  admin.associate = function(models) {
-    // associations can be defined here
+  admin.associate = (models) => {
+    admin.belongsTo(models.admin_role, { as: 'role' })
   }
 
   return admin
