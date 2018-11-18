@@ -35,13 +35,14 @@ app.use(express.static('assets'))
 app.use('/api', apiController)
 
 
-// page not found
+// route not found
 app.get('*', (req, res, next) => {
   res.status(404).send('not found')
 })
 
 // error
 app.use((err, req, res, next) => {
+  console.error(err)
   var isAPI = req.path.split('/')[1] === 'api'
   if (isAPI) {
     res.status(err.code || 500).send(err)
@@ -56,7 +57,6 @@ app.use((err, req, res, next) => {
 app.listen(appConfig.port, () => { console.log('Listening to port ' + appConfig.port) })
 
 function deleteExpiredSessions(sequelize) {
-
   var destoyer = {
     expires: {
       [Sequelize.Op.lte]: new Date()
