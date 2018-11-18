@@ -1,0 +1,27 @@
+{
+  "name": "wisma-sumur-pos",
+  "version": "1.0.0",
+  "description": "simple POS system for dormitory",
+  "main": "app.js",
+  "scripts": {
+    "test": "npm test",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sidikriders/wisma-sumur-pos.git"
+  },
+  "keywords": [
+    "POS",
+    "dormitory"
+  ],
+  "author": "sidikriders",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sidikriders/wisma-sumur-pos/issues"
+  },
+  "homepage": "https://github.com/sidikriders/wisma-sumur-pos#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
