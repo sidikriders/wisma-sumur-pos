@@ -31,6 +31,7 @@ router.post('/', (req, res, next) => {
         next(err)
       } else {
         payload.password = hash
+        payload.roleId = 2
         Admin.create(payload).then(newAdmin => {
           res.send({
             status: true,
