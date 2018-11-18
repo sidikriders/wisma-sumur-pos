@@ -3,13 +3,14 @@ var bcrypt = require('bcrypt')
 
 var router = express.Router()
 
+var auth = require('../middleware/authenticator')
 var models = require('../models')
 var AdminRole = models.admin_role
 var Admin = models.admin
 
 const saltRound = 10
 
-router.get('/', (req, res, next) => {
+router.get('/', auth.isSuperAdmin, (req, res, next) => {
   Admin.findAll({
     include: [{
       model: AdminRole,
@@ -22,7 +23,7 @@ router.get('/', (req, res, next) => {
   }).catch(err => next(err))
 })
 
-router.post('/', (req, res, next) => {
+router.post('/', auth.isSuperAdmin, (req, res, next) => {
   var payload = req.body
   // check password same with confirmPassword or no
   if (payload.password === payload.confirmPassword) {
@@ -49,7 +50,7 @@ router.post('/', (req, res, next) => {
   }
 })
 
-router.get('/roles', (req, res, next) => {
+router.get('/roles', auth.isSuperAdmin, (req, res, next) => {
   AdminRole.findAll({
     include: {
       model: Admin,
@@ -85,7 +86,7 @@ router.post('/login', (req, res, next) => {
               name: admin.role.name
             }
           }
-          console.log(req.session)
+
           return res.send(result)
         } else if (err) {
           next(err)
@@ -103,6 +104,12 @@ router.post('/login', (req, res, next) => {
       })
     }
   }).catch(err => next(err))
+})
+
+router.get('/logout', (req, res, next) => {
+  req.session.login = false
+  delete req.session.currUser
+  res.send(true)
 })
 
 module.exports = router
