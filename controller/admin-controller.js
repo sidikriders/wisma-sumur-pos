@@ -18,7 +18,7 @@ router.get('/', (req, res, next) => {
     }],
     attributes: ['id', 'name', 'username']
   }).then(resp => {
-    res.send(resp)
+    return res.send(resp)
   }).catch(err => next(err))
 })
 
@@ -33,7 +33,7 @@ router.post('/', (req, res, next) => {
         payload.password = hash
         payload.roleId = 2
         Admin.create(payload).then(newAdmin => {
-          res.send({
+          return res.send({
             status: true,
             msg: 'Success create new Admin',
             data: newAdmin
@@ -58,6 +58,50 @@ router.get('/roles', (req, res, next) => {
     attributes: ['id', 'name']
   }).then(resp => {
     return res.send(resp)
+  }).catch(err => next(err))
+})
+
+router.post('/login', (req, res, next) => {
+  Admin.findOne({
+    where: {
+      username: req.body.username
+    },
+    include: {
+      model: AdminRole,
+      attributes: ['id', 'name'],
+      as: 'role'
+    },
+    attributes: ['id', 'name', 'username', 'password']
+  }).then(admin => {
+    if (admin) {
+      bcrypt.compare(req.body.password, admin.password, (err, result) => {
+        if (result) {
+          req.session.login = true
+          req.session.currUser = {
+            username: admin.username,
+            name: admin.name,
+            role: {
+              id: admin.role.id,
+              name: admin.role.name
+            }
+          }
+          console.log(req.session)
+          return res.send(result)
+        } else if (err) {
+          next(err)
+        } else {
+          res.send({
+            status: false,
+            msg: 'Wrong Password'
+          })
+        }
+      })
+    } else {
+      return res.send({
+        status: false,
+        msg: 'Admin doesn\'t exist'
+      })
+    }
   }).catch(err => next(err))
 })
 

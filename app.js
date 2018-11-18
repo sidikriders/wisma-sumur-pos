@@ -29,11 +29,6 @@ app.use(session({
 app.use(bodyParser.json())
 app.use(express.static('assets'))
 
-app.use('*', (req, res, next) => {
-  console.log(req.session)
-  next()
-})
-
 app.use('/api', apiController)
 
 app.get('*', (req, res, next) => {
