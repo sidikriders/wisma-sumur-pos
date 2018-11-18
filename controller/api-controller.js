@@ -4,8 +4,10 @@ var router = express.Router()
 
 var adminController = require('./admin-controller')
 var roomController = require('./room-controller')
+var roomTypeController = require('./room-type-controller')
 
 router.use('/admin', adminController)
+router.use('/rooms/type', roomTypeController)
 router.use('/rooms', roomController)
 
 module.exports = router

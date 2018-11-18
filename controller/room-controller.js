@@ -5,6 +5,7 @@ var router = express.Router()
 
 var auth = require('../middleware/authenticator')
 var models = require('../models')
-var RoomType = models.RoomType
+var Room = models.room
+var RoomType = models.room_type
 
 module.exports = router
