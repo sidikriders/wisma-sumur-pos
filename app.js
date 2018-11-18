@@ -44,7 +44,7 @@ app.get('*', (req, res, next) => {
 app.use((err, req, res, next) => {
   var isAPI = req.path.split('/')[1] === 'api'
   if (isAPI) {
-    res.status(err.code).send(err)
+    res.status(err.code || 500).send(err)
   } else {
     res.status(err.code || 500).send({
       status: false,
