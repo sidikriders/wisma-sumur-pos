@@ -1,0 +1,7 @@
+{
+  "python.linting.enabled": false,
+  "javascript.validate.enable": false,
+  "standard.enable": true,
+  "standard.run": "onType",
+  "editor.tabSize": 2
+}
