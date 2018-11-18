@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "npm test",
-    "start": "nodemon app.js"
+    "start": "export NODE_ENV=development && nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,8 @@
   "homepage": "https://github.com/sidikriders/wisma-sumur-pos#readme",
   "dependencies": {
     "express": "^4.16.4",
-    "pug": "^2.0.3"
+    "mysql2": "^1.6.4",
+    "pug": "^2.0.3",
+    "sequelize": "^4.41.2"
   }
 }
