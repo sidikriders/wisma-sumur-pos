@@ -31,13 +31,16 @@ app.use(session({
 }))
 app.use(bodyParser.json())
 app.use(express.static('assets'))
-
+// api routing
 app.use('/api', apiController)
 
+
+// page not found
 app.get('*', (req, res, next) => {
   res.status(404).send('not found')
 })
 
+// error
 app.get((err, req, res, next) => {
   res.status(502).send({
     status: false,
@@ -45,7 +48,7 @@ app.get((err, req, res, next) => {
   })
 })
 
-app.listen(3000, () => { console.log('Listening to port 3000') })
+app.listen(appConfig.port, () => { console.log('Listening to port ' + appConfig.port) })
 
 function deleteExpiredSessions(sequelize) {
   var model = sequelize['import']('./models/session.js')
@@ -58,5 +61,7 @@ function deleteExpiredSessions(sequelize) {
     }
   }).then(() => {
     console.log(`Executing (default): DELETE FROM \`Sessions\` WHERE \`expires\` <= '${new Date().toISOString()}'`)
+  }).catch(err => {
+    throw new Error(err)
   })
 }
