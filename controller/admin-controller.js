@@ -57,7 +57,7 @@ router.get('/roles', (req, res, next) => {
     },
     attributes: ['id', 'name']
   }).then(resp => {
-    res.send(resp)
+    return res.send(resp)
   }).catch(err => next(err))
 })
 
