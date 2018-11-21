@@ -27,13 +27,13 @@ module.exports = {
       birthday: {
         type: Sequelize.DATE
       },
-      no_telp: {
+      noTelp: {
         type: Sequelize.STRING
       },
       alamat: {
         type: Sequelize.TEXT
       },
-      id_card_picture: {
+      idCardPicture: {
         type: Sequelize.STRING
       },
       createdAt: {

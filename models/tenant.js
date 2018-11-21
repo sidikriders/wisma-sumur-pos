@@ -7,13 +7,14 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     birthday: DataTypes.DATE,
-    no_telp: DataTypes.STRING,
+    noTelp: DataTypes.STRING,
     alamat: DataTypes.TEXT,
-    id_card_picture: DataTypes.STRING
+    idCardPicture: DataTypes.STRING
   })
 
   tenant.associate = (models) => {
     // associations can be defined here
+    tenant.hasMany(models.tenant_room, { foreignKey: 'tenantId' })
   }
 
   return tenant

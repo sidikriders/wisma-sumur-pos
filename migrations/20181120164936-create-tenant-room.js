@@ -8,16 +8,26 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      room_id: {
-        type: Sequelize.INTEGER
+      roomId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        reference: {
+          mode: 'rooms',
+          key: 'id'
+        }
       },
-      tenant_id: {
-        type: Sequelize.INTEGER
+      tenantId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        reference: {
+          model: 'tenants',
+          key: 'id'
+        }
       },
-      date_in: {
+      dateIn: {
         type: Sequelize.DATE
       },
-      date_out: {
+      dateOut: {
         type: Sequelize.DATE
       },
       createdAt: {
