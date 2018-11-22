@@ -7,7 +7,10 @@ var morgan = require('morgan')
 
 var appConfig = require('./app-config.js')
 var dbConfig = require('./config/config.json')[process.env.NODE_ENV || 'development']
+var auth = require('./middleware/authenticator')
+var globalMiddleware = require('./middleware/global')
 var apiController = require('./controller/api-controller')
+var renderController = require('./controller/render-controller')
 
 var SequelizeStore = require('connect-session-sequelize')(session.Store)
 var sequelize = new Sequelize(dbConfig.database, dbConfig.username, dbConfig.password, {
@@ -34,10 +37,14 @@ app.use(express.static('assets'))
 // api routing
 app.use('/api', apiController)
 
+app.use('/', globalMiddleware.setGlobalTitle, renderController)
 
 // route not found
 app.get('*', (req, res, next) => {
-  res.status(404).send('not found')
+  next({
+    code: 404,
+    msg: 'not found'
+  })
 })
 
 // error
